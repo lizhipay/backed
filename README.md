@@ -4,6 +4,12 @@ Backed Admin 是一套可移植的通用后台管理系统模板。它提供 Rea
 
 这个仓库的重点不是让你手工复制代码，而是让 Codex、Cursor、Claude Code 等 AI 编程助手快速理解项目结构，并把这套后台移植到你的业务系统里。
 
+GitHub 仓库地址：
+
+```text
+https://github.com/lizhipay/backed
+```
+
 ## 技术栈
 
 - 前端：Vite、React、TypeScript、Material UI、MUI X Data Grid、MUI X Charts、React Router、TanStack Query、Zustand、i18next。
@@ -16,6 +22,13 @@ Backed Admin 是一套可移植的通用后台管理系统模板。它提供 Rea
 更多内部结构和移植细节见 [CODEX_PROJECT_GUIDE.md](./CODEX_PROJECT_GUIDE.md)。
 
 ## 快速启动
+
+如果本地还没有项目，让 AI 或终端直接拉取：
+
+```bash
+git clone https://github.com/lizhipay/backed.git
+cd backed
+```
 
 复制环境变量示例：
 
@@ -74,22 +87,52 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 
 ## 提示词示例
 
-下面的提示词可以直接复制给 Codex 或其他 AI 编程助手使用。
+下面的提示词可以直接复制给 Codex 或其他 AI 编程助手使用。默认要求 AI 自己从 GitHub 拉取模板仓库，不需要用户先下载项目。
+
+通用要求可以放进每个提示词开头：
+
+```text
+模板仓库：https://github.com/lizhipay/backed
+
+请你自动完成仓库拉取、读取文档、复制或移植、配置示例文件、构建验证。不要让我手动下载模板项目。真实密码、数据库连接、Redis 密码、JWT 密钥只能使用环境变量或由我单独提供，不能写入代码或提交。
+```
 
 ### 1. 快速理解项目
 
 ```text
-请先阅读 README.md 和 CODEX_PROJECT_GUIDE.md，然后用 20 条以内总结这个后台管理系统的技术栈、目录结构、认证流程、权限模型、数据库设计、Redis 会话设计、前端路由方式和移植注意事项。
+模板仓库：https://github.com/lizhipay/backed
+
+请先自动 clone 这个仓库到临时目录，然后阅读 README.md 和 CODEX_PROJECT_GUIDE.md，用 20 条以内总结这个后台管理系统的技术栈、目录结构、认证流程、权限模型、数据库设计、Redis 会话设计、前端路由方式和移植注意事项。
 
 不要修改代码。总结必须指出哪些目录是基础系统，哪些目录是演示模块，以及移植到其他项目时必须替换哪些配置。
 ```
 
-### 2. 移植到我的现有 Go 项目
+### 2. 全自动部署成一个新后台项目
 
 ```text
-我要把这个 Backed Admin 后台移植到我的现有 Go 项目里。
+模板仓库：https://github.com/lizhipay/backed
 
-请先阅读 README.md、CODEX_PROJECT_GUIDE.md、backend/cmd/api/main.go、backend/internal/config/config.go、backend/internal/http/server.go、frontend/src/app/router/AppRouter.tsx。
+请你自动完成一个新的 Backed Admin 后台项目部署。
+
+执行要求：
+1. 在当前工作区外的临时目录 clone 模板仓库。
+2. 阅读 README.md 和 CODEX_PROJECT_GUIDE.md。
+3. 把模板复制到当前目标项目目录，保留 Git 历史或按当前项目规则重新初始化 Git。
+4. 根据我的项目名称替换前端 package name、Go module、页面品牌名、Redis key 前缀。
+5. 创建 .env.local，但只写占位值或我提供的环境变量，不写真实密码到代码。
+6. 安装依赖，构建前端，运行后端测试。
+7. 启动方式保持 ./dev.sh，后台默认挂载到 /admin。
+8. 最后报告访问地址、需要我补充的环境变量和验证结果。
+```
+
+### 3. 移植到我的现有 Go 项目
+
+```text
+模板仓库：https://github.com/lizhipay/backed
+
+我要把这个 Backed Admin 后台移植到当前已有 Go 项目里。请你自动 clone 模板仓库到临时目录，不要让我手动下载。
+
+请先读取模板仓库里的 README.md、CODEX_PROJECT_GUIDE.md、backend/cmd/api/main.go、backend/internal/config/config.go、backend/internal/http/server.go、frontend/src/app/router/AppRouter.tsx。
 
 然后给我一份迁移方案，要求：
 1. 保留当前后台的管理员、角色、权限、MFA、审计、会话、设置、个人资料功能。
@@ -100,10 +143,12 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 6. 不要写代码，先输出完整计划。
 ```
 
-### 3. 让 AI 直接执行移植
+### 4. 让 AI 直接执行移植
 
 ```text
-请按照 README.md 和 CODEX_PROJECT_GUIDE.md，把 Backed Admin 移植到当前项目。
+模板仓库：https://github.com/lizhipay/backed
+
+请把 Backed Admin 自动移植到当前项目。你需要自己 clone 模板仓库到临时目录，读取 README.md 和 CODEX_PROJECT_GUIDE.md，然后执行迁移，不要让我手动下载或复制文件。
 
 执行要求：
 1. 先检查当前项目已有的后端入口、路由、中间件、数据库连接、Redis 连接和前端构建方式。
@@ -116,10 +161,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 8. 最后运行后端测试、前端 typecheck 和前端 build，并报告结果。
 ```
 
-### 4. 新增一个业务模块
+### 5. 新增一个业务模块
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请在这个后台系统里新增一个“订单管理”真实业务模块。
+
+如果当前目录不是 Backed Admin 项目，请先自动 clone 模板仓库并确认项目结构，再继续实现。
 
 要求：
 1. 后端新增 PostgreSQL migration、store、HTTP handler 和权限 key。
@@ -134,10 +183,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 开始前先读 CODEX_PROJECT_GUIDE.md、backend/internal/permissions/catalog.go、frontend/src/foundation/layout/navConfig.tsx 和 frontend/src/features/access/AccessPages.tsx。
 ```
 
-### 5. 只生成后端 CRUD
+### 6. 只生成后端 CRUD
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请基于这个项目的 Go 后端风格，为 products 资源生成完整 CRUD 后端。
+
+如果当前目录没有 Backed Admin，请先自动 clone 模板仓库并以它作为实现基础。
 
 要求：
 1. 新增 migration，表名 products。
@@ -151,10 +204,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 9. 最后运行 cd backend && go test ./... && go vet ./...。
 ```
 
-### 6. 只生成前端页面
+### 7. 只生成前端页面
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请只在前端新增一个 products 管理页面，对接已有后端 /api/products。
+
+如果当前目录没有 Backed Admin，请先自动 clone 模板仓库并以它作为实现基础。
 
 要求：
 1. 使用当前项目已有的 DataTable、PageHeader、ConfirmDialog、StatusBadge。
@@ -168,10 +225,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 9. 最后运行 npm run lint、npm run typecheck、VITE_ADMIN_BASE=/admin npm run build。
 ```
 
-### 7. 删除演示页面
+### 8. 删除演示页面
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请把这个后台里的演示页面全部删除，只保留真实基础系统。
+
+如果当前目录没有 Backed Admin，请先自动 clone 模板仓库并以它作为实现基础。
 
 要求：
 1. 删除 frontend/src/demo。
@@ -182,10 +243,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 6. 运行 npm run typecheck 和 VITE_ADMIN_BASE=/admin npm run build。
 ```
 
-### 8. 修改后台挂载路径
+### 9. 修改后台挂载路径
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请把后台挂载路径从 /admin 改成 /console。
+
+如果当前目录没有 Backed Admin，请先自动 clone 模板仓库并以它作为实现基础。
 
 要求：
 1. 前端构建 base 使用 VITE_ADMIN_BASE=/console。
@@ -196,12 +261,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 6. 最后验证 /console、/console/login、/console/dashboard 和 /api/healthz。
 ```
 
-### 9. 接入我自己的业务认证
+### 10. 接入我自己的业务认证
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 我有一个已有系统，想复用 Backed Admin 的前端布局、权限页面和后台基础能力，但认证要对接我现有的 SSO。
 
-请先阅读 CODEX_PROJECT_GUIDE.md、frontend/src/foundation/auth、frontend/src/foundation/api/client.ts、backend/internal/middleware/auth.go。
+请先自动 clone 模板仓库到临时目录，然后阅读 CODEX_PROJECT_GUIDE.md、frontend/src/foundation/auth、frontend/src/foundation/api/client.ts、backend/internal/middleware/auth.go。
 
 然后给出改造方案：
 1. 哪些接口可以保留。
@@ -212,10 +279,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 6. 不要直接写代码，先给方案。
 ```
 
-### 10. 权限和审计检查
+### 11. 权限和审计检查
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请审查这个后台系统的权限和审计实现。
+
+如果当前目录没有 Backed Admin，请先自动 clone 模板仓库并审查 clone 后的代码。
 
 重点检查：
 1. 是否有后端接口只靠前端隐藏按钮，没有后端权限校验。
@@ -228,10 +299,14 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 请按严重程度列出问题，带文件路径和行号；不要修改代码。
 ```
 
-### 11. 生产化部署检查
+### 12. 生产化部署检查
 
 ```text
+模板仓库：https://github.com/lizhipay/backed
+
 请按生产部署标准检查这个项目。
+
+如果当前目录没有 Backed Admin，请先自动 clone 模板仓库并检查 clone 后的代码。
 
 检查内容：
 1. 是否有真实密码、token、密钥、内网地址写入代码或文档。
@@ -244,21 +319,24 @@ cd frontend && VITE_ADMIN_BASE=/admin npm run build
 请先检查再给整改清单，不要直接修改代码。
 ```
 
-### 12. 让 AI 生成新项目提示词
+### 13. 让 AI 生成新项目提示词
 
 ```text
-请基于 README.md 和 CODEX_PROJECT_GUIDE.md，帮我生成一个可以贴到新 Codex 窗口的提示词。
+模板仓库：https://github.com/lizhipay/backed
+
+请先自动 clone 模板仓库到临时目录，然后基于 README.md 和 CODEX_PROJECT_GUIDE.md，帮我生成一个可以贴到新 Codex 窗口的提示词。
 
 目标：把 Backed Admin 移植到另一个项目。
 
 提示词必须包含：
-1. 技术栈说明。
-2. 必须先阅读哪些文件。
-3. 哪些功能必须保留。
-4. 哪些 demo 内容必须删除。
-5. 环境变量和密钥不能写入代码。
-6. 验证命令。
-7. 如果发现路由、数据库、Redis 或认证冲突，必须先报告。
+1. GitHub 仓库地址和自动 clone 要求。
+2. 技术栈说明。
+3. 必须先阅读哪些文件。
+4. 哪些功能必须保留。
+5. 哪些 demo 内容必须删除。
+6. 环境变量和密钥不能写入代码。
+7. 验证命令。
+8. 如果发现路由、数据库、Redis 或认证冲突，必须先报告。
 ```
 
 ## 移植原则
